@@ -40,6 +40,8 @@
         }
       ],
       "expo-web-browser",
+      "expo-secure-store",
+      "@clerk/expo",
       [
         "expo-font",
         {
