@@ -9,10 +9,18 @@ import { useEffect } from "react";
 SplashScreen.preventAutoHideAsync();
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY as string;
+const posthogApiKey = process.env.EXPO_PUBLIC_POSTHOG_API_KEY;
+const posthogHost = process.env.EXPO_PUBLIC_POSTHOG_HOST;
 
 if (!publishableKey) {
   throw new Error(
     "Add your Clerk Publishable Key to the .env file as EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY",
+  );
+}
+
+if (!posthogApiKey) {
+  throw new Error(
+    "Add your PostHog API Key to the .env file as EXPO_PUBLIC_POSTHOG_API_KEY",
   );
 }
 
@@ -36,8 +44,8 @@ export default function RootLayout() {
 
   return (
     <PostHogProvider
-      apiKey={process.env.EXPO_PUBLIC_POSTHOG_API_KEY as string}
-      options={{ host: process.env.EXPO_PUBLIC_POSTHOG_HOST as string }}
+      apiKey={posthogApiKey}
+      options={posthogHost ? { host: posthogHost } : undefined}
     >
       <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
         <Stack screenOptions={{ headerShown: false }} />
