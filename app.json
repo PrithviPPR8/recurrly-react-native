@@ -40,7 +40,6 @@
         }
       ],
       "expo-web-browser",
-      "expo-secure-store",
       "@clerk/expo",
       [
         "expo-font",
@@ -54,7 +53,8 @@
             "./assets/fonts/PlusJakartaSans-Light.ttf"
           ]
         }
-      ]
+      ],
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true,
