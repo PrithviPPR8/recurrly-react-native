@@ -22,10 +22,6 @@ export default function SignIn() {
   const [code, setCode] = useState("");
   const [formError, setFormError] = useState<string | null>(null);
 
-  const isVerifying =
-    signIn.status === "needs_client_trust" ||
-    signIn.status === "needs_second_factor";
-
   const isBusy = fetchStatus === "fetching";
   const canSubmit =
     !isBusy && emailAddress.trim().length > 0 && password.length >= 8;
@@ -72,7 +68,10 @@ export default function SignIn() {
       return;
     }
 
-    if (isVerifying) {
+    if (
+      signIn.status === "needs_client_trust" ||
+      signIn.status === "needs_second_factor"
+    ) {
       const emailCodeFactor = signIn.supportedSecondFactors?.find(
         (factor) => factor.strategy === "email_code",
       );
@@ -130,7 +129,8 @@ export default function SignIn() {
           </Text>
         </View>
 
-        {isVerifying ? (
+        {signIn.status === "needs_client_trust" ||
+        signIn.status === "needs_second_factor" ? (
           <>
             <Text className="mb-1 text-sm font-sans-semibold text-primary">
               Verification code

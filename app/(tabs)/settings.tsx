@@ -2,12 +2,14 @@ import { useClerk, useUser } from "@clerk/expo";
 import { styled } from "nativewind";
 import { Pressable, Text, View } from "react-native";
 import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
+import { useState } from "react";
 
 const SafeAreaView = styled(RNSafeAreaView);
 
 export default function Settings() {
   const { user } = useUser();
   const { signOut } = useClerk();
+  const [isSigningOut, setIsSigningOut] = useState(false);
   const email =
     user?.primaryEmailAddress?.emailAddress ??
     user?.emailAddresses?.[0]?.emailAddress;
@@ -32,8 +34,18 @@ export default function Settings() {
         ) : null}
 
         <Pressable
-          className="mt-8 rounded-full bg-accent px-5 py-4 items-center"
-          onPress={() => signOut()}
+          className={`mt-8 rounded-full px-5 py-4 items-center ${isSigningOut ? "bg-accent/60" : "bg-accent"}`}
+          disabled={isSigningOut}
+          onPress={async () => {
+            setIsSigningOut(true);
+            try {
+              await signOut();
+            } catch (error) {
+              console.error("Sign out failed", error);
+            } finally {
+              setIsSigningOut(false);
+            }
+          }}
         >
           <Text className="text-base font-sans-semibold text-white">
             Sign out

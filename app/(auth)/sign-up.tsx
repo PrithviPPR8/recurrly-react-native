@@ -22,9 +22,6 @@ export default function SignUp() {
   const [code, setCode] = useState("");
   const [formError, setFormError] = useState<string | null>(null);
 
-  const isVerifying =
-    signUp.status === "missing_requirements" &&
-    signUp.unverifiedFields.includes("email_address");
   const isBusy = fetchStatus === "fetching";
   const canSubmit =
     !isBusy && emailAddress.trim().length > 0 && password.length >= 8;
@@ -73,7 +70,10 @@ export default function SignUp() {
       return;
     }
 
-    if (isVerifying) {
+    if (
+      signUp.status === "missing_requirements" &&
+      signUp.unverifiedFields.includes("email_address")
+    ) {
       await signUp.verifications.sendEmailCode();
       return;
     }
@@ -125,7 +125,8 @@ export default function SignUp() {
           </Text>
         </View>
 
-        {isVerifying ? (
+        {signUp.status === "missing_requirements" &&
+        signUp.unverifiedFields.includes("email_address") ? (
           <>
             <Text className="mb-1 text-sm font-sans-semibold text-primary">
               Email verification
