@@ -59,9 +59,12 @@ const CreateSubscriptionModal: React.FC<CreateSubscriptionModalProps> = ({
       newErrors.name = "Name is required";
     }
 
-    if (!price.trim()) {
+    const normalizedPrice = price.trim();
+    if (!normalizedPrice) {
       newErrors.price = "Price is required";
-    } else if (isNaN(parseFloat(price)) || parseFloat(price) <= 0) {
+    } else if (!/^\d+(\.\d{1,2})?$/.test(normalizedPrice)) {
+      newErrors.price = "Price must be a valid amount (up to 2 decimals)";
+    } else if (Number(normalizedPrice) <= 0) {
       newErrors.price = "Price must be a positive number";
     }
 
@@ -81,7 +84,7 @@ const CreateSubscriptionModal: React.FC<CreateSubscriptionModalProps> = ({
     const subscription: Subscription = {
       id: `subscription-${Date.now()}`,
       name: name.trim(),
-      price: parseFloat(price),
+      price: Number(price.trim()),
       category,
       status: "active",
       startDate: now.toISOString(),

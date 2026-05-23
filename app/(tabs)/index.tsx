@@ -2,7 +2,6 @@ import CreateSubscriptionModal from "@/components/CreateSubscriptionModal";
 import ListHeading from "@/components/ListHeading";
 import SubscriptionCard from "@/components/SubscriptionCard";
 import UpcomingSubscriptionCard from "@/components/UpcomingSubscriptionCard";
-import { useSubscriptions } from "@/context/SubscriptionContext";
 import {
   HOME_BALANCE,
   HOME_USER,
@@ -10,6 +9,7 @@ import {
 } from "@/constants/data";
 import { icons } from "@/constants/icons";
 import images from "@/constants/images";
+import { useSubscriptions } from "@/context/SubscriptionContext";
 import "@/global.css";
 import { formatCurrency } from "@/lib/utils";
 import dayjs from "dayjs";
