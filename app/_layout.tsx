@@ -1,3 +1,4 @@
+import { SubscriptionProvider } from "@/context/SubscriptionContext";
 import "@/global.css";
 import { ClerkProvider } from "@clerk/expo";
 import { tokenCache } from "@clerk/expo/token-cache";
@@ -48,7 +49,9 @@ export default function RootLayout() {
       options={posthogHost ? { host: posthogHost } : undefined}
     >
       <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
-        <Stack screenOptions={{ headerShown: false }} />
+        <SubscriptionProvider>
+          <Stack screenOptions={{ headerShown: false }} />
+        </SubscriptionProvider>
       </ClerkProvider>
     </PostHogProvider>
   );
