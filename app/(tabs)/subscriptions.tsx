@@ -1,5 +1,5 @@
 import SubscriptionCard from "@/components/SubscriptionCard";
-import { HOME_SUBSCRIPTIONS } from "@/constants/data";
+import { useSubscriptions } from "@/context/SubscriptionContext";
 import { styled } from "nativewind";
 import React, { useMemo, useState } from "react";
 import { FlatList, Text, TextInput, View } from "react-native";
@@ -10,17 +10,18 @@ const StyledTextInput = styled(TextInput);
 const StyledView = styled(View);
 
 const Subscriptions = () => {
+  const { subscriptions } = useSubscriptions();
   const [searchQuery, setSearchQuery] = useState("");
   const [expandedCards, setExpandedCards] = useState<string>("");
 
   const filteredSubscriptions = useMemo(() => {
-    return HOME_SUBSCRIPTIONS.filter(
+    return subscriptions.filter(
       (sub) =>
         sub.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         sub.category?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         sub.plan?.toLowerCase().includes(searchQuery.toLowerCase()),
     );
-  }, [searchQuery]);
+  }, [searchQuery, subscriptions]);
 
   const toggleExpanded = (id: string) => {
     setExpandedCards(expandedCards === id ? "" : id);
